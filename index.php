@@ -97,6 +97,7 @@ class wechatCallbackapiTest
                 }
             }else if($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
                 $ran = rand(1, 19);
+                $car = $arrayName = array('' => , );
                 switch ($ran) {
                     case 1:
                         $contentStr = "我不爱你";
@@ -116,7 +117,7 @@ class wechatCallbackapiTest
             }else if($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){
                 $contentStr = "你好, 穷比.";
             }else if($keyword == "我丑吗") {
-                $contentStr = "当然不, 每次你打开公众号的时候, 我都为你的飒爽英姿所倾倒. ";
+                $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
             }else if($keyword == "我美吗") {
                 $ran = rand(1, 2);
                 switch ($ran) {
@@ -130,7 +131,21 @@ class wechatCallbackapiTest
             }else if($keyword == "小猫" or $keyword == "娘口"){
                 $contentStr = "嗯?";
             }else{
-                $contentStr = "你唔明噶...";
+                $ran = rand(1, 4);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "你唔明噶...";
+                        break;
+                    case 2:
+                        $contentStr = "滚";
+                        break;
+                    case 3:
+                        $contentStr = "我不想说话";
+                        break;
+                    default:
+                        $contentStr = "我不想理你";
+                        break;
+                }
             }
 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
@@ -144,7 +159,7 @@ class wechatCallbackapiTest
         $contentStr = "";
         switch ($object->Event) {
             case "subscribe":
-                $contentStr = "感谢关注 FunnyBabyCat"."\n"."会生活也是很让人羡慕的.";
+                $contentStr = "感谢关注 FunnyBabyCat"."\n"."这是我的小猫"."\n"."会生活也是很让人羡慕的.";
                 break;
             
             default:

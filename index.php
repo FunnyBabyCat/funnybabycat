@@ -76,7 +76,7 @@ class wechatCallbackapiTest
         if(!empty($keyword)){
             $msgType = "text";
 
-            if($keyword == "最美的人"){
+            if($keyword == "最美"){
                 $contentStr = "您就是这个世界上最美的人";
             }else{
                 $contentStr = "Welcome to wechat world!";                

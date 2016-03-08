@@ -76,7 +76,7 @@ class wechatCallbackapiTest
         if(!empty($keyword)){
             $msgType = "text";
             
-            if($keyword == "最美的人"){
+            if($keyword == "谁是这个世界上最美的人"){
                 $ran = rand(1, 10);
                 switch ($ran) {
                     case 1:
@@ -95,7 +95,7 @@ class wechatCallbackapiTest
                         $contentStr = "是白雪公主!";
                         break;
                 }
-            }else if($keyword == "说爱我"){//($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
+            }else if($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
                 $ran = rand(1, 19);
                 switch ($ran) {
                     case 1:

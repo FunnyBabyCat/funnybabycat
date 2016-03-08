@@ -95,38 +95,38 @@ class wechatCallbackapiTest
                         $contentStr = "是白雪公主!";
                         break;
                 }
-            }else if($keyword == "说爱我"){//($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
-                $ran = rand(1, 19);
-                switch ($ran) {
-                    case 1:
-                        $contentStr = "我不爱你";
-                        break;
-                    case 10:
-                        $contentStr = "今晚夜色很美, 适合与朋友分享. ";
-                        break;
-                    case 19:
-                        $contentStr = "好吧, 我爱你.";
-                        break;
-                    default:
-                        $contentStr = "哦...";
-                        break;
-                }
-            }else if($keyword == "嘿"){//( $keyword == "嘿" or $keyword == "嗨" or $keyword == "你好" ){
-                $contentStr = "你好, 女神.";
-            }else if($keyword == "男的"){//($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){
-                $contentStr = "你好, 穷比.";
-            }else if($keyword == "我丑吗") {
-                $contentStr = "当然不, 每次你打开公众号的时候, 我都为你的飒爽英姿所倾倒. ";
-            }else if($keyword == "我美吗") {
-                $ran = rand(1, 2);
-                switch ($ran) {
-                    case 1:
-                        $contentStr = "我每次被人夸好看的时候, 都觉得那是因为我和你越来越像了. "
-                        break;
-                    default:
-                        $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
-                        break;
-                }
+            // }else if($keyword == "说爱我"){//($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
+            //     $ran = rand(1, 19);
+            //     switch ($ran) {
+            //         case 1:
+            //             $contentStr = "我不爱你";
+            //             break;
+            //         case 10:
+            //             $contentStr = "今晚夜色很美, 适合与朋友分享. ";
+            //             break;
+            //         case 19:
+            //             $contentStr = "好吧, 我爱你.";
+            //             break;
+            //         default:
+            //             $contentStr = "哦...";
+            //             break;
+            //     }
+            // }else if($keyword == "嘿"){//( $keyword == "嘿" or $keyword == "嗨" or $keyword == "你好" ){
+            //     $contentStr = "你好, 女神.";
+            // }else if($keyword == "男的"){//($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){
+            //     $contentStr = "你好, 穷比.";
+            // }else if($keyword == "我丑吗") {
+            //     $contentStr = "当然不, 每次你打开公众号的时候, 我都为你的飒爽英姿所倾倒. ";
+            // }else if($keyword == "我美吗") {
+            //     $ran = rand(1, 2);
+            //     switch ($ran) {
+            //         case 1:
+            //             $contentStr = "我每次被人夸好看的时候, 都觉得那是因为我和你越来越像了. "
+            //             break;
+            //         default:
+            //             $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
+            //             break;
+            //     }
             }else{
                 $contentStr = "Welcome to wechat world!";
             }

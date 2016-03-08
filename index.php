@@ -115,9 +115,9 @@ class wechatCallbackapiTest
                 $contentStr = "你好, 女神.";
             }else if($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){
                 $contentStr = "你好, 穷比.";
-            }elseif ($keyword == "我丑吗") {
+            }else if($keyword == "我丑吗") {
                 $contentStr = "当然不, 每次你打开公众号的时候, 我都为你的飒爽英姿所倾倒. ";
-            }elseif ($keyword == "我美吗") {
+            }else if($keyword == "我美吗") {
                 $ran = rand(1, 2);
                 switch ($ran) {
                     case 1:

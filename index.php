@@ -111,8 +111,8 @@ class wechatCallbackapiTest
                         $contentStr = "哦...";
                         break;
                 }
-            // }else if($keyword == "嘿"){//( $keyword == "嘿" or $keyword == "嗨" or $keyword == "你好" ){
-            //     $contentStr = "你好, 女神.";
+            }else if( $keyword == "嘿" or $keyword == "嗨" or $keyword == "你好" ){
+                $contentStr = "你好, 女神.";
             // }else if($keyword == "男的"){//($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){
             //     $contentStr = "你好, 穷比.";
             // }else if($keyword == "我丑吗") {
@@ -128,7 +128,7 @@ class wechatCallbackapiTest
             //             break;
             //     }
             }else{
-                $contentStr = "Welcome to wechat world!";
+                $contentStr = "你唔明噶...";
             }
 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);

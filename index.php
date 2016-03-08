@@ -117,16 +117,16 @@ class wechatCallbackapiTest
                 $contentStr = "你好, 穷比.";
             }else if($keyword == "我丑吗") {
                 $contentStr = "当然不, 每次你打开公众号的时候, 我都为你的飒爽英姿所倾倒. ";
-            }else if($keyword == "我美吗") {
-                $ran = rand(1, 2);
-                switch ($ran) {
-                    case 1:
-                        $contentStr = "我每次被人夸好看的时候, 都觉得那是因为我和你越来越像了. "
-                        break;
-                    default:
-                        $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
-                        break;
-                }
+            // }else if($keyword == "我美吗") {
+            //     $ran = rand(1, 2);
+            //     switch ($ran) {
+            //         case 1:
+            //             $contentStr = "我每次被人夸好看的时候, 都觉得那是因为我和你越来越像了. "
+            //             break;
+            //         default:
+            //             $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
+            //             break;
+            //     }
             }else{
                 $contentStr = "你唔明噶...";
             }

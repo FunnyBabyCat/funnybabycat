@@ -131,22 +131,7 @@ class wechatCallbackapiTest
             }else if($keyword == "小猫" or $keyword == "娘口"){
                 $contentStr = "嗯?";
             }else{
-                // $ran = rand(1, 4);
-                // switch ($ran) {
-                //     case 1:
-                //         $contentStr = "你唔明噶...";
-                //         break;
-                //     case 2:
-                //         $contentStr = "滚";
-                //         break;
-                //     case 3:
-                //         $contentStr = "我不想说话";
-                //         break;
-                //     default:
-                //         $contentStr = "我不想理你";
-                //         break;
-                // }
-                $contentStr = "我不想理你";
+                $contentStr = "你唔明噶...";
             }
 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);

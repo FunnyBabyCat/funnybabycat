@@ -127,6 +127,8 @@ class wechatCallbackapiTest
                         $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
                         break;
                 }
+            }else if($keyword == "小猫" or $keyword == "娘口"){
+                $contentStr = "嗯?";
             }else{
                 $contentStr = "你唔明噶...";
             }

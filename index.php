@@ -95,22 +95,22 @@ class wechatCallbackapiTest
                         $contentStr = "是白雪公主!";
                         break;
                 }
-            // }else if($keyword == "说爱我"){//($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
-            //     $ran = rand(1, 19);
-            //     switch ($ran) {
-            //         case 1:
-            //             $contentStr = "我不爱你";
-            //             break;
-            //         case 10:
-            //             $contentStr = "今晚夜色很美, 适合与朋友分享. ";
-            //             break;
-            //         case 19:
-            //             $contentStr = "好吧, 我爱你.";
-            //             break;
-            //         default:
-            //             $contentStr = "哦...";
-            //             break;
-            //     }
+            }else if($keyword == "说爱我"){//($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
+                $ran = rand(1, 19);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "我不爱你";
+                        break;
+                    case 10:
+                        $contentStr = "今晚夜色很美, 适合与朋友分享. ";
+                        break;
+                    case 19:
+                        $contentStr = "好吧, 我爱你.";
+                        break;
+                    default:
+                        $contentStr = "哦...";
+                        break;
+                }
             // }else if($keyword == "嘿"){//( $keyword == "嘿" or $keyword == "嗨" or $keyword == "你好" ){
             //     $contentStr = "你好, 女神.";
             // }else if($keyword == "男的"){//($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){

@@ -161,7 +161,6 @@ class wechatCallbackapiTest
             case "subscribe":
                 $contentStr = "感谢关注 FunnyBabyCat"."\n"."会生活也是很让人羡慕的.";
                 break;
-            
             default:
                 $contentStr = "Unknown Event: ".$object->Event;
                 break;

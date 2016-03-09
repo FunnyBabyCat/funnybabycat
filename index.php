@@ -76,7 +76,17 @@ class wechatCallbackapiTest
         if(!empty($keyword)){
             $msgType = "text";
             
-            if($keyword == "谁是这个世界上最美的人"){
+            //天气
+            $str = mb_substr($keyword, -2, 2, "UTF-8");
+            $str_key = mb_substr($keyword, 0, -2, "UTF-8");
+            if($str == '天气' && !empty($str_key)){
+                $data = $this->weather($str_key);
+                if(empty($data->weatherinfo)){
+                    $contentStr = "【".$data->weatherinfo->city."天气预报】\n".$data->weatherinfo->date_y." ".$data->weatherinfo->fchh."时发布"."\n\n实时天气\n".$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
+                }else{
+                    $contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
+                }
+            }else if($keyword == "谁是这个世界上最美的人"){
                 $ran = rand(1, 10);
                 switch ($ran) {
                     case 1:
@@ -187,6 +197,20 @@ class wechatCallbackapiTest
                     </xml>";
         $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content, $flag);
         return $resultStr;
+    }
+
+    /* 
+    *  天气查询函数
+     */
+    private function weather($n){
+        include 'weather_cityId.php';
+        $city_name = $weather_cityId[$n];
+        if(!empty($city_name)){
+            $json = file_get_contents("http://m.weather.com.cn/data/".$city_name.".html");
+            return json_decode($json);
+        }else{
+            return null;
+        }
     }
 
     /*

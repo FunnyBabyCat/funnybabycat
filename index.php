@@ -46,7 +46,7 @@ class wechatCallbackapiTest
                     case "text":
                         $resultStr = $this->handleText($postObj);
                         break;
-                    case "Event":
+                    case "event":
                         $resultStr = $this->handleEvent($postObj);
                         break;
                     default:
@@ -97,7 +97,6 @@ class wechatCallbackapiTest
                 }
             }else if($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
                 $ran = rand(1, 19);
-                //$car = $arrayName = array('' => , );
                 switch ($ran) {
                     case 1:
                         $contentStr = "我不爱你";
@@ -156,7 +155,7 @@ class wechatCallbackapiTest
     }
 
     public function handleEvent($object){
-        //$contentStr = "";
+        $contentStr = "";
         switch ($object->Event) {
             case "subscribe":
                 $contentStr = "感谢关注 FunnyBabyCat"."\n"."会生活也是很让人羡慕的.";

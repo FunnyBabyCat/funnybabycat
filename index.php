@@ -253,20 +253,20 @@ class wechatCallbackapiTest
         $suggestion = $weatherinfo->{'suggestion'};
 
         for ($i=1; $i < 7; $i++) { 
-        $weinfo = $daily_forecast[$i];
-        $cond = $weinfo->{'cond'};
-        $date = $weinfo->{'date'};
-        $tmp = $weinfo->{'tmp'};
-        $year = mb_substr($date, 0, 4, "UTF-8");
-        $date = substr_replace($date, "", 0, 5);
+            $weinfo = $daily_forecast[$i];
+            $cond = $weinfo->{'cond'};
+            $date = $weinfo->{'date'};
+            $tmp = $weinfo->{'tmp'};
+            $year = mb_substr($date, 0, 4, "UTF-8");
+            $date = substr_replace($date, "", 0, 5);
             if($i == 1){
                 $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n\n";
                 $drsg = $suggestion->{'drsg'};
                 $contentStr .= $drsg->{'brf'}.", ".$drsg->{'txt'}."\n\n";
             }else if($i == 6){
-                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'};
+                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."";
             }else{
-                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n";
+                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n\n";
             }
         }
         return $contentStr;

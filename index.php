@@ -79,14 +79,17 @@ class wechatCallbackapiTest
             //天气
             $str = mb_substr($keyword, -2, 2, "UTF-8");
             $str_key = mb_substr($keyword, 0, -2, "UTF-8");
-            // if($str == '天气' && !empty($str_key)){
-            //     $data = $this->weather($str_key);
-            //     if(empty($data->weatherinfo)){
-            //         $contentStr = "【".$data->weatherinfo->city."天气预报】\n".$data->weatherinfo->date_y." ".$data->weatherinfo->fchh."时发布"."\n\n实时天气\n".$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
-            //     }else{
-            //         $contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
-            //     }
-            /* }else*/ if($keyword == "谁是这个世界上最美的人"){
+            if($str == '天气' && !empty($str_key)){
+                $data = weather($str_key);
+                $status = $data->{'HeWeather data service 3.0'}[0]->{'status'};
+                if($status == "ok"){
+                    $contentStr = weather_info($data);
+                }else if($status == "unknown city"){
+                    $contentStr = "未知城市";
+                }else{
+                    $contentStr = "服务器无响应或超时";
+                }
+            }else if($keyword == "谁是这个世界上最美的人"){
                 $ran = rand(1, 10);
                 switch ($ran) {
                     case 1:
@@ -219,7 +222,9 @@ class wechatCallbackapiTest
         curl_setopt($ch , CURLOPT_URL , $url);
         $res = curl_exec($ch);
         //var_dump(json_decode($res));
-        return json_decode($res); 
+        $data = json_decode($res); 
+        // $contentStr = weather_info($data);
+        return $data;
     }
     // 国家气象局
     // private function weather($n){
@@ -233,33 +238,38 @@ class wechatCallbackapiTest
     //     }
     // }
 
-    private function weather_info(){
-        $city = $data->{'HeWeather data service 3.0'}[0];
-        $aqi = $city->{'aqi'};
-        $basic = $city->{'basic'};
-        $daily_forecast = $city->{'daily_forecast'};
-        $hourly_forecast = $city->{'hourly_forecast'};
-        $now = $city->{'now'};
-        $status = $city->{'status'};
-        $suggestion = $city->{'suggestion'};
+    private function weather_info($data){
+        $contentStr = "";
+        $weatherinfo = $data->{'HeWeather data service 3.0'}[0];
 
-        echo '基本信息';
-        var_dump($basic);
+        // 基本信息
+        $basic = $weatherinfo->{'basic'};
+        $contentStr .= $basic->{'city'}."\n";
 
-        echo '空气质量';
-        var_dump($aqi);
+        //7天天气
+        $daily_forecast = $weatherinfo->{'daily_forecast'};
 
-        echo '7天天气预报';
-        var_dump($daily_forecast);
+        // 建议
+        $suggestion = $weatherinfo->{'suggestion'};
 
-        echo '每三小时天气预报';
-        var_dump($hourly_forecast);
-
-        echo '实况天气';
-        var_dump($now);
-
-        echo '建议';
-        var_dump($suggestion);
+        for ($i=1; $i < 7; $i++) { 
+        $weinfo = $daily_forecast[$i];
+        $cond = $weinfo->{'cond'};
+        $date = $weinfo->{'date'};
+        $tmp = $weinfo->{'tmp'};
+        $year = mb_substr($date, 0, 4, "UTF-8");
+        $date = substr_replace($date, "", 0, 5);
+            if($i == 1){
+                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n\n";
+                $drsg = $suggestion->{'drsg'};
+                $contentStr .= $drsg->{'brf'}.", ".$drsg->{'txt'}."\n\n";
+            }else if($i == 6){
+                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'};
+            }else{
+                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n";
+            }
+        }
+        return $contentStr;
     }
     /*
     *  加密/校验流程：

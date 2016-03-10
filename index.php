@@ -254,11 +254,12 @@ class wechatCallbackapiTest
 
         for ($i=1; $i < 7; $i++) { 
             $weinfo = $daily_forecast[$i];
-            $cond = $weinfo->{'cond'};
+            
             $date = $weinfo->{'date'};
-            $tmp = $weinfo->{'tmp'};
             $year = mb_substr($date, 0, 4, "UTF-8");
-            $date = substr_replace($date, "", 0, 5);
+            $date = substr_replace($date, "", 0, 5); // 日期
+            $tmp = $weinfo->{'tmp'}; // 气温
+            $cond = $weinfo->{'cond'}; // 天气状况
             if($i == 1){
                 $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°"."\n\n";
                 $drsg = $suggestion->{'drsg'};

@@ -79,14 +79,14 @@ class wechatCallbackapiTest
             //天气
             $str = mb_substr($keyword, -2, 2, "UTF-8");
             $str_key = mb_substr($keyword, 0, -2, "UTF-8");
-            if($str == '天气' && !empty($str_key)){
-                $data = $this->weather($str_key);
-                if(empty($data->weatherinfo)){
-                    $contentStr = "【".$data->weatherinfo->city."天气预报】\n".$data->weatherinfo->date_y." ".$data->weatherinfo->fchh."时发布"."\n\n实时天气\n".$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
-                }else{
-                    $contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
-                }
-            }else if($keyword == "谁是这个世界上最美的人"){
+            // if($str == '天气' && !empty($str_key)){
+            //     $data = $this->weather($str_key);
+            //     if(empty($data->weatherinfo)){
+            //         $contentStr = "【".$data->weatherinfo->city."天气预报】\n".$data->weatherinfo->date_y." ".$data->weatherinfo->fchh."时发布"."\n\n实时天气\n".$data->weatherinfo->weather1." ".$data->weatherinfo->temp1." ".$data->weatherinfo->wind1."\n\n温馨提示：".$data->weatherinfo->index_d."\n\n明天\n".$data->weatherinfo->weather2." ".$data->weatherinfo->temp2." ".$data->weatherinfo->wind2."\n\n后天\n".$data->weatherinfo->weather3." ".$data->weatherinfo->temp3." ".$data->weatherinfo->wind3;
+            //     }else{
+            //         $contentStr = "抱歉，没有查到\"".$str_key."\"的天气信息！";
+            //     }
+            /* }else*/ if($keyword == "谁是这个世界上最美的人"){
                 $ran = rand(1, 10);
                 switch ($ran) {
                     case 1:
@@ -154,7 +154,7 @@ class wechatCallbackapiTest
                         $contentStr = "滚";
                         break;
                     case 2:
-                        $contentStr = "我不想说话";
+                        $contentStr = "我不想说话/:,@o";
                         break;
                     case 3:
                         $contentStr = "不想理你";
@@ -176,7 +176,7 @@ class wechatCallbackapiTest
         $contentStr = "";
         switch ($object->Event) {
             case "subscribe":
-                $contentStr = "FunnyBabyCat"."\n"."这是一只小猫=w="."\n"."无聊请勿调戏233";
+                $contentStr = "FunnyBabyCat"."\n"."一只小猫=w="."\n"."请勿调戏233";
                 break;
             default:
                 $contentStr = "Unknown Event: ".$object->Event;
@@ -202,17 +202,64 @@ class wechatCallbackapiTest
     /* 
     *  天气查询函数
      */
-    private function weather($n){
+    // 百度
+    private function weather($city){
         include 'weather_cityId.php';
-        $city_name = $weather_cityId[$n];
-        if(!empty($city_name)){
-            $json = file_get_contents("http://m.weather.com.cn/data/".$city_name.".html");
-            return json_decode($json);
-        }else{
-            return null;
-        }
+        $city_name = $weather_cityId[$city];
+        $ch = curl_init();
+        $url = 'http://apis.baidu.com/heweather/weather/free?city='.$city_name;
+        $header = array(
+            'apikey: 22e7fe8a7b368e1d2db1cb1b7db729fa',
+        );
+        // 添加apikey到header
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // 执行HTTP请求
+        curl_setopt($ch , CURLOPT_URL , $url);
+        $res = curl_exec($ch);
+        //var_dump(json_decode($res));
+        return json_decode($res); 
     }
+    // 国家气象局
+    // private function weather($n){
+    //     include 'weather_cityId.php';
+    //     $city_name = $weather_cityId[$n];
+    //     if(!empty($city_name)){
+    //         $json = file_get_contents("http://m.weather.com.cn/data/".$city_name.".html");
+    //         return json_decode($json);
+    //     }else{
+    //         return null;
+    //     }
+    // }
 
+    private function weather_info(){
+        $city = $data->{'HeWeather data service 3.0'}[0];
+        $aqi = $city->{'aqi'};
+        $basic = $city->{'basic'};
+        $daily_forecast = $city->{'daily_forecast'};
+        $hourly_forecast = $city->{'hourly_forecast'};
+        $now = $city->{'now'};
+        $status = $city->{'status'};
+        $suggestion = $city->{'suggestion'};
+
+        echo '基本信息';
+        var_dump($basic);
+
+        echo '空气质量';
+        var_dump($aqi);
+
+        echo '7天天气预报';
+        var_dump($daily_forecast);
+
+        echo '每三小时天气预报';
+        var_dump($hourly_forecast);
+
+        echo '实况天气';
+        var_dump($now);
+
+        echo '建议';
+        var_dump($suggestion);
+    }
     /*
     *  加密/校验流程：
     *   1. 将token、timestamp、nonce三个参数进行字典序排序

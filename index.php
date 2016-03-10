@@ -260,13 +260,13 @@ class wechatCallbackapiTest
             $year = mb_substr($date, 0, 4, "UTF-8");
             $date = substr_replace($date, "", 0, 5);
             if($i == 1){
-                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."-".$tmp->{'max'}."\n\n";
+                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°"."\n\n";
                 $drsg = $suggestion->{'drsg'};
                 $contentStr .= $drsg->{'brf'}.", ".$drsg->{'txt'}."\n\n";
             }else if($i == 6){
-                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."-".$tmp->{'max'};
+                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°";
             }else{
-                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."-".$tmp->{'max'}."\n";
+                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°"."\n";
             }
         }
         return $contentStr;

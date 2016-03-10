@@ -81,17 +81,14 @@ class wechatCallbackapiTest
             $str_key = mb_substr($keyword, 0, -2, "UTF-8");
             if($str == '天气' && !empty($str_key)){
                 $data = $this->weather($str_key);
-                $contentStr = "haha";
-                $contentStr .= $this->weather_info($data);
-                $contentStr .= "哈哈";
-                // $status = $data->{'HeWeather data service 3.0'}[0]->{'status'};
-                // if($status == "ok"){
-                //     $contentStr = weather_info($data);
-                // }else if($status == "unknown city"){
-                //     $contentStr = "未知城市";
-                // }else{
-                //     $contentStr = "服务器无响应或超时";
-                // }
+                $status = $data->{'HeWeather data service 3.0'}[0]->{'status'};
+                if($status == "ok"){
+                    $contentStr = weather_info($data);
+                }else if($status == "unknown city"){
+                    $contentStr = "未知城市";
+                }else{
+                    $contentStr = "服务器无响应或超时";
+                }
             }else if($keyword == "谁是这个世界上最美的人"){
                 $ran = rand(1, 10);
                 switch ($ran) {

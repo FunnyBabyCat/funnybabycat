@@ -83,7 +83,7 @@ class wechatCallbackapiTest
                 $data = $this->weather($str_key);
                 $status = $data->{'HeWeather data service 3.0'}[0]->{'status'};
                 if($status == "ok"){
-                    $contentStr = weather_info($data);
+                    $contentStr = $this->weather_info($data);
                 }else if($status == "unknown city"){
                     $contentStr = "未知城市";
                 }else{

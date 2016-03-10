@@ -81,7 +81,9 @@ class wechatCallbackapiTest
             $str_key = mb_substr($keyword, 0, -2, "UTF-8");
             if($str == '天气' && !empty($str_key)){
                 $data = weather($str_key);
-                $contentStr = weather_info($data);
+                $contentStr = "haha";
+                $contentStr .= weather_info($data);
+                $contentStr .= "哈哈";
                 // $status = $data->{'HeWeather data service 3.0'}[0]->{'status'};
                 // if($status == "ok"){
                 //     $contentStr = weather_info($data);

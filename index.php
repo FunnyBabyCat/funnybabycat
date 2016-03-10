@@ -154,7 +154,8 @@ class wechatCallbackapiTest
                         $contentStr = "滚";
                         break;
                     case 2:
-                        $contentStr = "我不想说话/:,@o";
+                        $fe = "/:,@o";
+                        $contentStr = "我不想说话".$fe;
                         break;
                     case 3:
                         $contentStr = "不想理你";

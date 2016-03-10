@@ -254,19 +254,27 @@ class wechatCallbackapiTest
 
         for ($i=1; $i < 7; $i++) { 
             $weinfo = $daily_forecast[$i];
-            $cond = $weinfo->{'cond'};
+
+            // 日期
             $date = $weinfo->{'date'};
-            $tmp = $weinfo->{'tmp'};
             $year = mb_substr($date, 0, 4, "UTF-8");
             $date = substr_replace($date, "", 0, 5);
+            
+            //天气状况
+            $cond = $weinfo->{'cond'};
+            $cond = $cond->{'txt_d'};
+
+            // 气温
+            $tmp = $weinfo->{'tmp'};
+            $tmp = $tmp->{'min'}."-".$tmp->{'max'};
             if($i == 1){
-                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n\n";
+                $contentStr .= $date."\t".$cond."\t".$tmp."\n\n";
                 $drsg = $suggestion->{'drsg'};
                 $contentStr .= $drsg->{'brf'}.", ".$drsg->{'txt'}."\n\n";
             }else if($i == 6){
-                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."";
+                $contentStr .= $date."\t".$cond."\t".$tmp;
             }else{
-                $contentStr .= $date."\t".$cond->{'txt_d'}."\t".$tmp->{'min'}."-".$tmp->{'max'}."\n\n";
+                $contentStr .= $date."\t".$cond."\t".$tmp."\n";
             }
         }
         return $contentStr;

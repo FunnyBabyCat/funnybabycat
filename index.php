@@ -262,9 +262,9 @@ class wechatCallbackapiTest
             $hightemp = $f->{"hightemp"};
             $lowtemp = $f->{"lowtemp"};
             $type = $f->{"type"};
-            $contentStr .= $date."  ".$week."  ".$type."  ".$hightemp."-".$lowtemp."\n";
+            $contentStr .= $date."  ".$week."  ".$type."  ".$lowtemp."-".$hightemp."\n";
         }
-        $contentStr .= "/:8-)铲屎官可还满意";
+        $contentStr .= "\n/:8-)铲屎官可还满意";
         return $contentStr;
     }
     /*

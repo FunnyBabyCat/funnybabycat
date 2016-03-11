@@ -80,15 +80,13 @@ class wechatCallbackapiTest
             $str = mb_substr($keyword, -2, 2, "UTF-8");
             $str_key = mb_substr($keyword, 0, -2, "UTF-8");
             if($str == '天气' && !empty($str_key)){
-                $data = $this->weather($str_key);
-                $status = $data->{'HeWeather data service 3.0'}[0]->{'status'};
-                if($status == "ok"){
-                    $contentStr = $this->weather_info($data);
-                }else if($status == "unknown city"){
-                    $contentStr = "未知城市";
+                $data = weather($str_key);
+                if($data != null){
+                    $contentStr = weather_info($data);    
                 }else{
-                    $contentStr = "服务器无响应或超时";
-                }
+                    $face = "/::~";
+                    $contentStr = $face."发生错误了.../::~";
+                }                
             }else if($keyword == "谁是这个世界上最美的人"){
                 $ran = rand(1, 10);
                 switch ($ran) {
@@ -161,7 +159,8 @@ class wechatCallbackapiTest
                         $contentStr = "我不想说话".$fe;
                         break;
                     case 3:
-                        $contentStr = "不想理你";
+                        $fe = "/:<@";
+                        $contentStr = $fe."不想理你";
                         break;
                     default:
                         $contentStr = "你唔明噶...";
@@ -209,9 +208,11 @@ class wechatCallbackapiTest
     // 百度
     private function weather($city){
         include 'weather_cityId.php';
-        $city_name = $weather_cityId[$city];
+        $cityid = $weather_cityId[$city];
+        $cityid = substr_replace($cityid, "", 0, 2);
         $ch = curl_init();
-        $url = 'http://apis.baidu.com/heweather/weather/free?city='.$city_name;
+        $url = 'http://apis.baidu.com/apistore/weatherservice/recentweathers?cityid='.$cityid;
+        //$url = 'http://apis.baidu.com/heweather/weather/free?city='.$cityid;
         $header = array(
             'apikey: 22e7fe8a7b368e1d2db1cb1b7db729fa',
         );
@@ -221,7 +222,7 @@ class wechatCallbackapiTest
         // 执行HTTP请求
         curl_setopt($ch , CURLOPT_URL , $url);
         $res = curl_exec($ch);
-        //var_dump(json_decode($res));
+        var_dump(json_decode($res));
         $data = json_decode($res); 
         // $contentStr = weather_info($data);
         return $data;
@@ -239,37 +240,36 @@ class wechatCallbackapiTest
     // }
 
     private function weather_info($data){
-        $contentStr = "";
-        $weatherinfo = $data->{'HeWeather data service 3.0'}[0];
+        $retData = $data->{"retData"};
 
-        // 基本信息
-        $basic = $weatherinfo->{'basic'};
-        $contentStr .= $basic->{'city'}."\n";
+        $city = $retData->{"city"}; // 当前城市
+        $today = $retData->{"today"}; // 今日的信息
+        $today_date = $today->{"date"}; // 今天的日期
+        $today_date = substr_replace($today_date, "", 0, 5); // 去掉年份
+        $today_week = $today->{"week"}; // 今天周几
+        $today_curTemp = $today->{"curTemp"}; // 现在的温度
+        $today_hightemp = $today->{"hightemp"}; // 今日最高温
+        $today_lowtemp = $today->{"lowtemp"}; // 今日最低温
+        $today_type = $today->{"type"}; // 今日的天气状况
+        $today_index = $today->{"index"}; // 今日指标
+        $suggestion = $today_index[2]; // 穿衣建议
+        
+        $contentStr = $city."  当前温度: ".$today_curTemp; // 第一行: 城市 当前温度 
+        $contentStr .= $today_date."  ".$today_week."  ".$today_type."  ".$today_lowtemp."-".$today_hightemp."\n"; // 第二行: 日期 周几 天气状况 温度范围
+        $contentStr .= $suggestion->{"details"}."\n\n"; // 第三行 穿衣建议
 
-        //7天天气
-        $daily_forecast = $weatherinfo->{'daily_forecast'};
-
-        // 建议
-        $suggestion = $weatherinfo->{'suggestion'};
-
-        for ($i=1; $i < 7; $i++) { 
-            $weinfo = $daily_forecast[$i];
-            
-            $date = $weinfo->{'date'};
-            $year = mb_substr($date, 0, 4, "UTF-8");
-            $date = substr_replace($date, "", 0, 5); // 日期
-            $tmp = $weinfo->{'tmp'}; // 气温
-            $cond = $weinfo->{'cond'}; // 天气状况
-            if($i == 1){
-                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°"."\n\n";
-                $drsg = $suggestion->{'drsg'};
-                $contentStr .= $drsg->{'brf'}.", ".$drsg->{'txt'}."\n\n";
-            }else if($i == 6){
-                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°";
-            }else{
-                $contentStr .= $date."  ".$cond->{'txt_d'}."  ".$tmp->{'min'}."~".$tmp->{'max'}."C°"."\n";
-            }
+        $forecast = $retData->{"forecast"}; // 未来预测
+        foreach ($forecast as $f){
+            $date = $f->{"date"};
+            $date = substr_replace($date, "", 0, 5);
+            $week = $f->{"week"};
+            $hightemp = $f->{"hightemp"};
+            $lowtemp = $f->{"lowtemp"};
+            $type = $f->{"type"};
+            $contentStr .= $date."  ".$week."  ".$type."  ".$hightemp."-".$lowtemp."\n";
         }
+        $face = "/:8-)";
+        $contentStr .= "铲屎官可还满意".$face;
         return $contentStr;
     }
     /*

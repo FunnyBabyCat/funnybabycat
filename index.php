@@ -80,9 +80,9 @@ class wechatCallbackapiTest
             $str = mb_substr($keyword, -2, 2, "UTF-8");
             $str_key = mb_substr($keyword, 0, -2, "UTF-8");
             if($str == '天气' && !empty($str_key)){
-                $data = weather($str_key);
+                $data = $this->weather($str_key);
                 if($data != null){
-                    $contentStr = weather_info($data);    
+                    $contentStr = $this->weather_info($data);    
                 }else{
                     $face = "/::~";
                     $contentStr = $face."发生错误了.../::~";

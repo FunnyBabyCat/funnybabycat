@@ -212,7 +212,6 @@ class wechatCallbackapiTest
         $cityid = substr_replace($cityid, "", 0, 2);
         $ch = curl_init();
         $url = 'http://apis.baidu.com/apistore/weatherservice/recentweathers?cityid='.$cityid;
-        //$url = 'http://apis.baidu.com/heweather/weather/free?city='.$cityid;
         $header = array(
             'apikey: 22e7fe8a7b368e1d2db1cb1b7db729fa',
         );
@@ -222,9 +221,8 @@ class wechatCallbackapiTest
         // 执行HTTP请求
         curl_setopt($ch , CURLOPT_URL , $url);
         $res = curl_exec($ch);
-        var_dump(json_decode($res));
+        // var_dump(json_decode($res));
         $data = json_decode($res); 
-        // $contentStr = weather_info($data);
         return $data;
     }
     // 国家气象局
@@ -254,7 +252,7 @@ class wechatCallbackapiTest
         $today_index = $today->{"index"}; // 今日指标
         $suggestion = $today_index[2]; // 穿衣建议
         
-        $contentStr = $city."  当前温度: ".$today_curTemp; // 第一行: 城市 当前温度 
+        $contentStr = $city."  当前温度: ".$today_curTemp."\n"; // 第一行: 城市 当前温度 
         $contentStr .= $today_date."  ".$today_week."  ".$today_type."  ".$today_lowtemp."-".$today_hightemp."\n"; // 第二行: 日期 周几 天气状况 温度范围
         $contentStr .= $suggestion->{"details"}."\n\n"; // 第三行 穿衣建议
 
@@ -269,7 +267,7 @@ class wechatCallbackapiTest
             $contentStr .= $date."  ".$week."  ".$type."  ".$hightemp."-".$lowtemp."\n";
         }
         $face = "/:8-)";
-        $contentStr .= "铲屎官可还满意".$face;
+        $contentStr .= "/:8-)铲屎官可还满意".$face;
         return $contentStr;
     }
     /*

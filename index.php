@@ -155,12 +155,10 @@ class wechatCallbackapiTest
                         $contentStr = "滚";
                         break;
                     case 2:
-                        $fe = "/:,@o";
-                        $contentStr = "我不想说话".$fe;
+                        $contentStr = "我不想说话/:,@o";
                         break;
                     case 3:
-                        $fe = "/:<@";
-                        $contentStr = $fe."不想理你";
+                        $contentStr = "/:<@不想理你";
                         break;
                     default:
                         $contentStr = "你唔明噶...";
@@ -266,8 +264,7 @@ class wechatCallbackapiTest
             $type = $f->{"type"};
             $contentStr .= $date."  ".$week."  ".$type."  ".$hightemp."-".$lowtemp."\n";
         }
-        $face = "/:8-)";
-        $contentStr .= "/:8-)铲屎官可还满意".$face;
+        $contentStr .= "/:8-)铲屎官可还满意";
         return $contentStr;
     }
     /*

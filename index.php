@@ -123,7 +123,7 @@ class wechatCallbackapiTest
                 }
             }else if(preg_match("^嗨|你好|嘿^", $keyword)){
                 $contentStr = "你好, 女神.";
-            }else if(preg_match("^男的|男人||帅哥^", $keyword)){
+            }else if(preg_match("^男的|男人|帅哥^", $keyword)){
                 $contentStr = "你好, 丑男.";
             }else if(preg_match("^[\s\S]*?我[\s\S]*?(丑|不好看|不美|不漂亮)[\s\S]*?^", $keyword)) {
                 $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
@@ -164,7 +164,7 @@ class wechatCallbackapiTest
                         break;
                 }
             }
-            
+
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
         }else{

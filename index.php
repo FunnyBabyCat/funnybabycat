@@ -89,7 +89,7 @@ class wechatCallbackapiTest
                 }                
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";
-            }else if($keyword == "谁是这个世界上最美的人"){ // 回复 最美的人
+            }else if(preg_match("^最美的人|最漂亮的人^", $keyword)){ // 回复 最美的人
                 $ran = rand(1, 10);
                 switch ($ran) {
                     case 1:

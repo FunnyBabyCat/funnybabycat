@@ -101,14 +101,11 @@ class wechatCallbackapiTest
                     case 3:
                         $contentStr = "有趣的问题. ";
                         break;
-                    case 4:
-                        $contentStr = "你应该是个学霸. ";
-                        break;
                     default:
                         $contentStr = "是白雪公主!";
                         break;
                 }
-            }else if($keyword == "说爱我" or $keyword == "说你爱我" or $keyword == "你爱我吗"){
+            }else if(preg_match("^爱我^", $keyword)){
                 $ran = rand(1, 19);
                 switch ($ran) {
                     case 1:
@@ -124,13 +121,13 @@ class wechatCallbackapiTest
                         $contentStr = "哦...";
                         break;
                 }
-            }else if( $keyword == "嘿" or $keyword == "嗨" or $keyword == "你好" ){
+            }else if(preg_match("^嗨|你好|嘿^", $keyword)){
                 $contentStr = "你好, 女神.";
-            }else if($keyword == "男" or $keyword == "男的" or $keyword == "帅哥"){
-                $contentStr = "你好, 穷比.";
-            }else if($keyword == "我丑吗") {
+            }else if(preg_match("^男的|男人||帅哥^", $keyword)){
+                $contentStr = "你好, 丑男.";
+            }else if(preg_match("^[\s\S]*?我[\s\S]*?(丑|不好看|不美|不漂亮)[\s\S]*?^", $keyword)) {
                 $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
-            }else if($keyword == "我美吗") {
+            }else if(preg_match("^[\s\S]*?我[\s\S]*?(美|好看|漂亮)[\s\S]*?^", $keyword)) {
                 $ran = rand(1, 2);
                 switch ($ran) {
                     case 1:
@@ -140,7 +137,7 @@ class wechatCallbackapiTest
                         $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
                         break;
                 }
-            }else if($keyword == "小猫" or $keyword == "娘口"){
+            }else if(preg_match("^小猫|娘口|在吗|在干嘛^", $keyword)){
                 $ran = rand(1, 2);
                 switch ($ran) {
                     case 1:
@@ -167,7 +164,7 @@ class wechatCallbackapiTest
                         break;
                 }
             }
-
+            
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             echo $resultStr;
         }else{

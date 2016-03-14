@@ -250,7 +250,7 @@ class wechatCallbackapiTest
         $suggestion = $today_index[2]; // 穿衣建议
         
         $contentStr = $city."  当前温度: ".$today_curTemp."\n"; // 第一行: 城市 当前温度 
-        $contentStr .= $today_date."  ".$today_week."  ".$today_type."  ".$today_lowtemp."-".$today_hightemp."\n"; // 第二行: 日期 周几 天气状况 温度范围
+        $contentStr .= $today_date."  ".$today_week."  ".$today_type."\n".$today_lowtemp."-".$today_hightemp."\n"; // 第二行: 日期 周几 天气状况 温度范围
         $contentStr .= $suggestion->{"details"}."\n\n"; // 第三行 穿衣建议
 
         $forecast = $retData->{"forecast"}; // 未来预测
@@ -261,7 +261,7 @@ class wechatCallbackapiTest
             $hightemp = $f->{"hightemp"};
             $lowtemp = $f->{"lowtemp"};
             $type = $f->{"type"};
-            $contentStr .= $date."  ".$week."  ".$type."  ".$lowtemp."-".$hightemp."\n";
+            $contentStr .= $date."  ".$week."  ".$type."\n".$lowtemp."-".$hightemp."\n";
         }
         $contentStr .= "\n/:8-)铲屎官可还满意";
         return $contentStr;

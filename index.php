@@ -90,7 +90,8 @@ class wechatCallbackapiTest
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";
             }else if ($keyword == "每日一曲") {
-                $contentStr = "http://music.163.com/#/m/song?id=29462888";
+                $this->tuwen($postObj);
+                exit;
             } else if(preg_match("^最美的人|最漂亮的人^", $keyword)){ // 回复 最美的人
                 $ran = rand(1, 10);
                 switch ($ran) {
@@ -199,6 +200,42 @@ class wechatCallbackapiTest
                     </xml>";
         $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content, $flag);
         return $resultStr;
+    }
+
+    public function tuwen($postObj){
+        $arr = array(
+            array(
+                "Title":"每日推荐03-14",
+                "Description":"Stray dream of you lights the chain of stars to find the way\nIn the darkest night of my lost and frozen heart",
+                "PicUrl":"https://mmbiz.qlogo.cn/mmbiz/rB6EXcQicm4W1doa8xLnt2zGbx7c6Y9pxn63SkgeKkN5omYHXhX8OYOU0byosGxzmskiajUD9AK6GiaawBdkYqZ3A/0?wx_fmt=jpeg",
+                "Url":"http://mp.weixin.qq.com/s?__biz=MzAwMzgyNzI5NA==&mid=402960407&idx=1&sn=8dbfb6a175f4fcc56ab53151cab1a645#rd"
+            ),
+            array(
+                "Title":"每日推荐03-14",
+                "Description":"Stray dream of you lights the chain of stars to find the way\nIn the darkest night of my lost and frozen heart",
+                "PicUrl":"https://mmbiz.qlogo.cn/mmbiz/rB6EXcQicm4W1doa8xLnt2zGbx7c6Y9pxn63SkgeKkN5omYHXhX8OYOU0byosGxzmskiajUD9AK6GiaawBdkYqZ3A/0?wx_fmt=jpeg",
+                "Url":"http://mp.weixin.qq.com/s?__biz=MzAwMzgyNzI5NA==&mid=402960407&idx=1&sn=8dbfb6a175f4fcc56ab53151cab1a645#rd"
+            )
+        )
+        $contentStr = "<xml>
+                <ToUserName><![CDATA[".$postObj->FromUserName."]]></ToUserName>
+                <FromUserName><![CDATA[".$postObj->ToUserName."]]></FromUserName>
+                <CreateTime>".time()."</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>
+                <ArticleCount>".count($arr)."</ArticleCount>
+                <Articles>";
+                
+        foreach ($arr as $k => $v) {
+            $contentStr.= "<item>
+                            <Title><![CDATA[".$v[Title]."]]></Title> 
+                            <Description><![CDATA[".$v[Description]."]]></Description>
+                            <PicUrl><![CDATA[".$v[PicUrl]."]]></PicUrl>
+                            <Url><![CDATA[".$v[Url]."]]></Url>
+                            </item>";
+        }
+        $contentStr .= "</Articles>
+                        </xml>";
+        echo $contentStr;
     }
 
     /* 

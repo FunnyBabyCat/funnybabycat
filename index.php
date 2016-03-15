@@ -111,7 +111,7 @@ class wechatCallbackapiTest
                             </item>";
                 $template .="</Articles>
                             </xml> ";
-                $resultStr = sprintf($template, $toUser, $fromUser, time(), 'news');
+                $resultStr = sprintf($template, $fromUsername, $toUsername, $time, 'news');
             } else if(preg_match("^最美的人|最漂亮的人^", $keyword)){ // 回复 最美的人
                 $ran = rand(1, 10);
                 switch ($ran) {

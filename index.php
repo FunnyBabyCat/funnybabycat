@@ -65,135 +65,113 @@ class wechatCallbackapiTest
         $toUsername = $postObj->ToUserName;
         $keyword = trim($postObj->Content);
         $time = time();
-        $Title = "每日推荐03-14";
-        $Description = "Stray dream of you lights the chain of stars to find the way";
-        $PicUrl = "https://mmbiz.qlogo.cn/mmbiz/rB6EXcQicm4W1doa8xLnt2zGbx7c6Y9pxn63SkgeKkN5omYHXhX8OYOU0byosGxzmskiajUD9AK6GiaawBdkYqZ3A/0?wx_fmt=jpeg";
-        $Url = "http://mp.weixin.qq.com/s?__biz=MzAwMzgyNzI5NA==&mid=402960407&idx=1&sn=8dbfb6a175f4fcc56ab53151cab1a645#rd";
-
-        $testTpl = "<xml>
+        $textTpl = "<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
                     <CreateTime>%s</CreateTime>
                     <MsgType><![CDATA[%s]]></MsgType>
-                    <ArticleCount>%s</ArticleCount>
-                    <Articles>
-                    <item>
-                    <Title><![CDATA[%s]]></Title> 
-                    <Description><![CDATA[%s]]></Description>
-                    <PicUrl><![CDATA[%s]]></PicUrl>
-                    <Url><![CDATA[%s]]></Url>
-                    </item>
-                    </Articles>
-                    </xml> ";
-        $r = sprintf($testTpl, $toUsername, $fromUsername, $time, "news", "1", $Title, $Description, $PicUrl, $Url);
-        echo $r;
-        // $textTpl = "<xml>
-        //             <ToUserName><![CDATA[%s]]></ToUserName>
-        //             <FromUserName><![CDATA[%s]]></FromUserName>
-        //             <CreateTime>%s</CreateTime>
-        //             <MsgType><![CDATA[%s]]></MsgType>
-        //             <Content><![CDATA[%s]]></Content>
-        //             <FuncFlag>0</FuncFlag>
-        //             </xml>";
-        // if(!empty($keyword)){
-        //     $msgType = "text";
+                    <Content><![CDATA[%s]]></Content>
+                    <FuncFlag>0</FuncFlag>
+                    </xml>";
+        if(!empty($keyword)){
+            $msgType = "text";
             
-        //     //天气
-        //     $str = mb_substr($keyword, -2, 2, "UTF-8");
-        //     $str_key = mb_substr($keyword, 0, -2, "UTF-8");
-        //     if($str == '天气' && !empty($str_key)){
-        //         $data = $this->weather($str_key);
-        //         if($data != null){
-        //             $contentStr = $this->weather_info($data);    
-        //         }else{
-        //             $face = "/::~";
-        //             $contentStr = $face."发生错误了.../::~";
-        //         }                
-        //     }else if(preg_match("^晚安^", $keyword)){
-        //     	$contentStr = "晚安/:moon";
-        //     }else if ($keyword == "每日一曲") {
-        //         $contentStr = "http://music.163.com/#/m/song?id=29462888";
-        //     } else if(preg_match("^最美的人|最漂亮的人^", $keyword)){ // 回复 最美的人
-        //         $ran = rand(1, 10);
-        //         switch ($ran) {
-        //             case 1:
-        //                 $contentStr = "是你, 你是这个世界上最美的人";
-        //                 break;
-        //             case 2:
-        //                 $contentStr = "你是史上最美的人, 前无古人, 后无来者!";
-        //                 break;
-        //             case 3:
-        //                 $contentStr = "有趣的问题. ";
-        //                 break;
-        //             default:
-        //                 $contentStr = "是白雪公主!";
-        //                 break;
-        //         }
-        //     }else if(preg_match("^爱我^", $keyword)){
-        //         $ran = rand(1, 19);
-        //         switch ($ran) {
-        //             case 1:
-        //                 $contentStr = "我不爱你";
-        //                 break;
-        //             case 10:
-        //                 $contentStr = "今晚夜色很美, 适合与朋友分享. ";
-        //                 break;
-        //             case 19:
-        //                 $contentStr = "好吧, 我爱你.";
-        //                 break;
-        //             default:
-        //                 $contentStr = "哦...";
-        //                 break;
-        //         }
-        //     }else if(preg_match("^嗨|你好|嘿^", $keyword)){
-        //         $contentStr = "你好, 女神.";
-        //     }else if(preg_match("^男的|男人|帅哥^", $keyword)){
-        //         $contentStr = "你好, 丑男.";
-        //     }else if(preg_match("^[\s\S]*?我[\s\S]*?(丑|不好看|不美|不漂亮)[\s\S]*?^", $keyword)) {
-        //         $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
-        //     }else if(preg_match("^[\s\S]*?我[\s\S]*?(美|好看|漂亮)[\s\S]*?^", $keyword)) {
-        //         $ran = rand(1, 2);
-        //         switch ($ran) {
-        //             case 1:
-        //                 $contentStr = "我每次被人夸好看的时候, 都觉得那是因为我和你越来越像了. ";
-        //                 break;
-        //             default:
-        //                 $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
-        //                 break;
-        //         }
-        //     }else if(preg_match("^小猫|娘口|在吗|在干嘛^", $keyword)){
-        //         $ran = rand(1, 2);
-        //         switch ($ran) {
-        //             case 1:
-        //                 $contentStr = "嗯?";
-        //                 break;
-        //             default:
-        //                 $contentStr = "干嘛";
-        //                 break;
-        //         }
-        //     }else{
-        //         $ran = rand(1, 4);
-        //         switch ($ran) {
-        //             case 1:
-        //                 $contentStr = "滚";
-        //                 break;
-        //             case 2:
-        //                 $contentStr = "我不想说话/:,@o";
-        //                 break;
-        //             case 3:
-        //                 $contentStr = "/:<@不想理你";
-        //                 break;
-        //             default:
-        //                 $contentStr = "你唔明噶...";
-        //                 break;
-        //         }
-        //     }
+            //天气
+            $str = mb_substr($keyword, -2, 2, "UTF-8");
+            $str_key = mb_substr($keyword, 0, -2, "UTF-8");
+            if($str == '天气' && !empty($str_key)){
+                $data = $this->weather($str_key);
+                if($data != null){
+                    $contentStr = $this->weather_info($data);    
+                }else{
+                    $face = "/::~";
+                    $contentStr = $face."发生错误了.../::~";
+                }                
+            }else if(preg_match("^晚安^", $keyword)){
+            	$contentStr = "晚安/:moon";
+            }else if ($keyword == "每日一曲") {
+                $contentStr = "http://music.163.com/#/m/song?id=29462888";
+            } else if(preg_match("^最美的人|最漂亮的人^", $keyword)){ // 回复 最美的人
+                $ran = rand(1, 10);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "是你, 你是这个世界上最美的人";
+                        break;
+                    case 2:
+                        $contentStr = "你是史上最美的人, 前无古人, 后无来者!";
+                        break;
+                    case 3:
+                        $contentStr = "有趣的问题. ";
+                        break;
+                    default:
+                        $contentStr = "是白雪公主!";
+                        break;
+                }
+            }else if(preg_match("^爱我^", $keyword)){
+                $ran = rand(1, 19);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "我不爱你";
+                        break;
+                    case 10:
+                        $contentStr = "今晚夜色很美, 适合与朋友分享. ";
+                        break;
+                    case 19:
+                        $contentStr = "好吧, 我爱你.";
+                        break;
+                    default:
+                        $contentStr = "哦...";
+                        break;
+                }
+            }else if(preg_match("^嗨|你好|嘿^", $keyword)){
+                $contentStr = "你好, 女神.";
+            }else if(preg_match("^男的|男人|帅哥^", $keyword)){
+                $contentStr = "你好, 丑男.";
+            }else if(preg_match("^[\s\S]*?我[\s\S]*?(丑|不好看|不美|不漂亮)[\s\S]*?^", $keyword)) {
+                $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
+            }else if(preg_match("^[\s\S]*?我[\s\S]*?(美|好看|漂亮)[\s\S]*?^", $keyword)) {
+                $ran = rand(1, 2);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "我每次被人夸好看的时候, 都觉得那是因为我和你越来越像了. ";
+                        break;
+                    default:
+                        $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
+                        break;
+                }
+            }else if(preg_match("^小猫|娘口|在吗|在干嘛^", $keyword)){
+                $ran = rand(1, 2);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "嗯?";
+                        break;
+                    default:
+                        $contentStr = "干嘛";
+                        break;
+                }
+            }else{
+                $ran = rand(1, 4);
+                switch ($ran) {
+                    case 1:
+                        $contentStr = "滚";
+                        break;
+                    case 2:
+                        $contentStr = "我不想说话/:,@o";
+                        break;
+                    case 3:
+                        $contentStr = "/:<@不想理你";
+                        break;
+                    default:
+                        $contentStr = "你唔明噶...";
+                        break;
+                }
+            }
 
-        //     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-        //     echo $resultStr;
-        // }else{
-        //     echo "Input something...";
-        // }        
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+            echo $resultStr;
+        }else{
+            echo "Input something...";
+        }        
     }
 
     public function handleEvent($object){

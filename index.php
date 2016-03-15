@@ -102,7 +102,7 @@ class wechatCallbackapiTest
                     <FromUserName><![CDATA[%s]]></FromUserName>
                     <CreateTime>%s</CreateTime>
                     <MsgType><![CDATA[%s]]></MsgType>
-                    <ArticleCount>".count($arr)."</ArticleCount>
+                    <ArticleCount>1</ArticleCount>
                     <Articles>";
                 $template .="<item>
                             <Title><![CDATA[".$title."]]></Title> 

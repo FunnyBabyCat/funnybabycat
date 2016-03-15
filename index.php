@@ -101,22 +101,15 @@ class wechatCallbackapiTest
                     <MsgType><![CDATA[%s]]></MsgType>
                     <ArticleCount>".$num."</ArticleCount>
                     <Articles>";
-                    for ($i = 0; $i < $num; $i++) { 
-                        $v = $arr[$i];
-                        $template .="<item>
-                            <Title><![CDATA[".$v['title']."]]></Title> 
-                            <Description><![CDATA[".$v['description']."]]></Description>
-                            <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
-                            <Url><![CDATA[".$v['url']."]]></Url>
-                            </item>";
-                    }
-                        
-                $template .="<item>
-                            <Title><![CDATA[".$title."]]></Title> 
-                            <Description><![CDATA[".$description."]]></Description>
-                            <PicUrl><![CDATA[".$picUrl."]]></PicUrl>
-                            <Url><![CDATA[".$url."]]></Url>
-                            </item>";
+                for ($i = 0; $i < $num; $i++) { 
+                    $v = $arr[$i];
+                    $template .="<item>
+                        <Title><![CDATA[".$v['title']."]]></Title> 
+                        <Description><![CDATA[".$v['description']."]]></Description>
+                        <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
+                        <Url><![CDATA[".$v['url']."]]></Url>
+                        </item>";
+                }
                 $template .="</Articles>
                             </xml> ";
                 $resultStr = sprintf($template, $fromUsername, $toUsername, $time, 'news');

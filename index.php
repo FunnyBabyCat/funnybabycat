@@ -91,18 +91,26 @@ class wechatCallbackapiTest
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-            }else if ($keyword == "每日一曲") {
-                $title = '每日一曲03-14';
-                $description = "Stray dream of you lights the chain of stars to find the way";
-                $picUrl ='https://mmbiz.qlogo.cn/mmbiz/rB6EXcQicm4W1doa8xLnt2zGbx7c6Y9pxn63SkgeKkN5omYHXhX8OYOU0byosGxzmskiajUD9AK6GiaawBdkYqZ3A/0?wx_fmt=jpeg';
-                $url = 'http://mp.weixin.qq.com/s?__biz=MzAwMzgyNzI5NA==&mid=402960407&idx=1&sn=8dbfb6a175f4fcc56ab53151cab1a645#rd';
+            }else if ( strtolower($keyword) == "song") {
+                include 'song.php';
+                $num = count($arr)>10?10:count($arr);
                 $template = "<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
                     <CreateTime>%s</CreateTime>
                     <MsgType><![CDATA[%s]]></MsgType>
-                    <ArticleCount>1</ArticleCount>
+                    <ArticleCount>".$num."</ArticleCount>
                     <Articles>";
+                    for ($i = 0; $i < $num; $i++) { 
+                        $v = $arr[$i];
+                        $template .="<item>
+                            <Title><![CDATA[".$v['title']."]]></Title> 
+                            <Description><![CDATA[".$v['description']."]]></Description>
+                            <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
+                            <Url><![CDATA[".$v['url']."]]></Url>
+                            </item>";
+                    }
+                        
                 $template .="<item>
                             <Title><![CDATA[".$title."]]></Title> 
                             <Description><![CDATA[".$description."]]></Description>

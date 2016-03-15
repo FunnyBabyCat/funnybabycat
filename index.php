@@ -96,7 +96,6 @@ class wechatCallbackapiTest
                 $description = "imooc is very cool";
                 $picUrl ='http://www.imooc.com/static/img/common/logo.png';
                 $url = 'http://www.imooc.com';
-                $contentStr = "http://music.163.com/#/m/song?id=29462888";
                 $template = "<xml>
                     <ToUserName><![CDATA[%s]]></ToUserName>
                     <FromUserName><![CDATA[%s]]></FromUserName>
@@ -112,7 +111,7 @@ class wechatCallbackapiTest
                             </item>";
                 $template .="</Articles>
                             </xml> ";
-                echo sprintf($template, $toUser, $fromUser, time(), 'news');
+                $resultStr = sprintf($template, $toUser, $fromUser, time(), 'news');
             } else if(preg_match("^最美的人|最漂亮的人^", $keyword)){ // 回复 最美的人
                 $ran = rand(1, 10);
                 switch ($ran) {

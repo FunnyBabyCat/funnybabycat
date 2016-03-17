@@ -100,7 +100,7 @@ class wechatCallbackapiTest
                 var_dump($trans);
                 $errorCode = $trans->{"errorCode"};
                 $contentStr = "";
-                switch ($result) {
+                switch ($errorCode) {
                     case 0:
                         $contentStr = $trans->{"translation"}[0];
                         break;

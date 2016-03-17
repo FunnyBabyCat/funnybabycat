@@ -82,7 +82,7 @@ class wechatCallbackapiTest
 
             //翻译
             $isTrans = mb_substr($keyword, 0, 2, "UTF-8");
-            $trans = mb_substr($keyword, 1, -1, "UTF-8");
+            $transinfo = str_replace($keyword, "", 0, 2);
             if($str == '天气' && !empty($str_key)){
                 $data = $this->weather($str_key);
                 if($data != null){
@@ -95,7 +95,7 @@ class wechatCallbackapiTest
             }else if( $isTrans == '翻译' ){
                 $key = "1006358614";
                 $keyfrom = "FunnyBabyCat";
-                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$trans;
+                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;
                 $trans = json_decode(file_get_contents($url));
                 var_dump($trans);
                 $errorCode = $trans->{"errorCode"};

@@ -82,7 +82,7 @@ class wechatCallbackapiTest
 
             //翻译
             $isTrans = mb_substr($keyword, 0, 2, "UTF-8");
-            $transinfo = str_replace($keyword, "", 0, 2);
+            $transinfo = preg_replace("翻译", "", $keyword);
             if($str == '天气' && !empty($str_key)){
                 $data = $this->weather($str_key);
                 if($data != null){
@@ -92,32 +92,32 @@ class wechatCallbackapiTest
                     $contentStr = $face."发生错误了.../::~";
                 }                
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-            }else if( $isTrans == '翻译' ){
+            }else if( $isTrans == "翻译" ){
                 $key = "1006358614";
                 $keyfrom = "FunnyBabyCat";
                 $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;
                 $trans = json_decode(file_get_contents($url));
                 var_dump($trans);
                 $errorCode = $trans->{"errorCode"};
-                $result = '';
+                $contentStr = "";
                 switch ($result) {
                     case 0:
-                        $result = $trans->{"translation"}[0];
+                        $contentStr = $trans->{"translation"}[0];
                         break;
                     case 20:
-                        $result = "要翻译的文本过长";
+                        $contentStr = "要翻译的文本过长";
                         break;
                     case 30:
-                        $result = "无法进行有效的翻译";
+                        $contentStr = "无法进行有效的翻译";
                         break;
                     case 40:
-                        $result = "不支持的语言类型";
+                        $contentStr = "不支持的语言类型";
                         break;
                     case 50:
-                        $result = "无效的key";
+                        $contentStr = "无效的key";
                         break;
                     default:
-                        $result = '/:,@!出错了...';
+                        $contentStr = '/:,@!出错了...';
                         break;
                 }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);

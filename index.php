@@ -82,7 +82,7 @@ class wechatCallbackapiTest
 
             //翻译
             $isTrans = mb_substr($keyword, 0, 2, "UTF-8");
-            $transinfo = mb_strcut($keyword, 7, strlen($keyword), "UTF-8");
+            $transinfo = mb_strcut($keyword, 6, strlen($keyword) - 6, "UTF-8");
             if($str == '天气' && !empty($str_key)){
                 $data = $this->weather($str_key);
                 if($data != null){

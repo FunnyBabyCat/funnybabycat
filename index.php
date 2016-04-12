@@ -49,9 +49,6 @@ class wechatCallbackapiTest
                     case "event":
                         $resultStr = $this->handleEvent($postObj);
                         break;
-                    case "voice":
-                        $resultStr = $this->handleVoice($postobj);
-                        break;
                     default:
                         $resultStr = "Unknown msg type".$RX_TYPE;
                         break;
@@ -253,12 +250,6 @@ class wechatCallbackapiTest
         $resultStr = $this->responseText($object, $contentStr);
         return $resultStr;
     }
-
-    public function handleVoice($object){
-        $contentStr = "收到一条语音";
-        $resultStr = $this->responseText($object, $contentStr);
-        return $resultStr;
-    }
     
     public function responseText($object, $content, $flag = 0){
         $textTpl = "<xml>
@@ -296,6 +287,17 @@ class wechatCallbackapiTest
         $data = json_decode($res); 
         return $data;
     }
+    // 国家气象局
+    // private function weather($n){
+    //     include 'weather_cityId.php';
+    //     $city_name = $weather_cityId[$n];
+    //     if(!empty($city_name)){
+    //         $json = file_get_contents("http://m.weather.com.cn/data/".$city_name.".html");
+    //         return json_decode($json);
+    //     }else{
+    //         return null;
+    //     }
+    // }
 
     private function weather_info($data){
         $retData = $data->{"retData"};

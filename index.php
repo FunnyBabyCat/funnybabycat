@@ -45,16 +45,20 @@ class wechatCallbackapiTest
                         $resultStr = $this->handleText($postObj);
                         break;
                     case "image":
-                    	$resultStr = $this->handleImage($postObj);
+                    	// $resultStr = $this->handleImage($postObj);
+                    	$resultStr = "Image";
                     	break;
                     case "voice":
-                    	$resultStr = $this->handleVoice($postObj);
+                    	// $resultStr = $this->handleVoice($postObj);
+                    	$resultStr = "Voice";
                     	break;
                 	case "video":
-                    	$resultStr = $this->handleVideo($postObj);
+                    	// $resultStr = $this->handleVideo($postObj);
+                    	$resultStr = "Video";
                     	break;
                     case "shortvideo":
-                    	$resultStr = $this->handleShortVideo($postObj);
+                    	// $resultStr = $this->handleShortVideo($postObj);
+                    	$resultStr = "ShortVideo";
                     	break;
                     case "event":
                         $resultStr = $this->handleEvent($postObj);
@@ -245,6 +249,10 @@ class wechatCallbackapiTest
         }else{
             echo "Input something...";
         }        
+    }
+
+    public function handleImage($object){
+
     }
 
     public function handleEvent($object){

@@ -7,11 +7,10 @@
 define("TOKEN", "FBC");
 $wechatObj = new wechatCallbackapiTest();
 $wechatObj->responseMsg();
-//$wechatObj->valid();
+$wechatObj->valid();
 
 class wechatCallbackapiTest
 {
-    /*
     public function valid()
     {
         $echoStr = $_GET["echostr"];
@@ -22,7 +21,6 @@ class wechatCallbackapiTest
             exit;
         }
     }
-     */
 
     public function responseMsg()
     {
@@ -46,6 +44,18 @@ class wechatCallbackapiTest
                     case "text":
                         $resultStr = $this->handleText($postObj);
                         break;
+                    case "image":
+                    	$resultStr = $this->handleImage($postObj);
+                    	break;
+                    case "voice":
+                    	$resultStr = $this->handleVoice($postObj);
+                    	break;
+                	case "video":
+                    	$resultStr = $this->handleVideo($postObj);
+                    	break;
+                    case "shortvideo":
+                    	$resultStr = $this->handleShortVideo($postObj);
+                    	break;
                     case "event":
                         $resultStr = $this->handleEvent($postObj);
                         break;

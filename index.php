@@ -255,7 +255,7 @@ class wechatCallbackapiTest
     }
 
     public function handleVoice($object){
-        $contentStr = $pbject->Recognition;
+        $contentStr = $object->Recognition;
         $contentStr = "你说的是: ".$contentStr;
         $resultStr = responseText($object, $contentStr);
         return $resultStr;

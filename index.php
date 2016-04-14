@@ -48,19 +48,15 @@ class wechatCallbackapiTest
                         $resultStr = $this->handleText($postObj);
                         break;
                     case "image":
-                    	// $resultStr = $this->handleImage($postObj);
-                    	$resultStr = $this->responseText($postObj, "Image");
+                    	$resultStr = $this->handleImage($postObj);
                     	break;
                     case "voice":
                     	$resultStr = $this->handleVoice($postObj);
-                    	// $resultStr = $this->responseText($postObj, "Voice");
-                    	break;
+        	          	break;
                 	case "video":
-                    	// $resultStr = $this->handleVideo($postObj);
-                		$resultStr = $this->responseText($postObj, "Video");
-                    	break;
+                    	$resultStr = $this->handleVideo($postObj);
+                		break;
                     case "shortvideo":
-                    	// $resultStr = $this->handleShortVideo($postObj);
                     	$resultStr = $this->responseText($postObj, "ShortVideo");
                     	break;
                     case "event":
@@ -255,7 +251,25 @@ class wechatCallbackapiTest
     }
 
     public function handleVoice($object){
-        $contentStr = "内容: ".$object->Recognition;
+        $contentStr = "内容: \n".$object->Recognition;
+        $resultStr = $this->responseText($object, $contentStr);
+        return $resultStr;
+    }
+
+    public function handleImage($object){
+        $contentStr = "Image";
+        $resultStr = $this->responseText($object, $contentStr);
+        return $resultStr;
+    }
+
+    public function handleVideo($object){
+        $contentStr = "Video";
+        $resultStr = $this->responseText($object, $contentStr);
+        return $resultStr;
+    }
+
+    public function handleShortVideo($object){
+        $contentStr = "ShortVideo";
         $resultStr = $this->responseText($object, $contentStr);
         return $resultStr;
     }

@@ -255,7 +255,8 @@ class wechatCallbackapiTest
     }
 
     public function handleVoice($object){
-        $resultStr = $this->responseText($object, "Voice");
+        $contentStr = "内容: ".$object->Recognition;
+        $resultStr = $this->responseText($object, $contentStr);
         return $resultStr;
     }
 

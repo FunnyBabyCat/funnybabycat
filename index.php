@@ -52,8 +52,8 @@ class wechatCallbackapiTest
                     	$resultStr = $this->responseText($postObj, "Image");
                     	break;
                     case "voice":
-                    	// $resultStr = $this->handleVoice($postObj);
-                    	$resultStr = $this->responseText($postObj, "Voice");
+                    	$resultStr = $this->handleVoice($postObj);
+                    	// $resultStr = $this->responseText($postObj, "Voice");
                     	break;
                 	case "video":
                     	// $resultStr = $this->handleVideo($postObj);
@@ -255,10 +255,7 @@ class wechatCallbackapiTest
     }
 
     public function handleVoice($object){
-        $contentStr = "你说的是: ";
-        // $contentStr .= $object->Recognition;
-        //$contentStr = "你说的是: ".$contentStr;
-        $resultStr = responseText($object, $contentStr);
+        $resultStr = $this->responseText($postObj, "Voice");
         return $resultStr;
     }
 

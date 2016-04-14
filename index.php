@@ -4,7 +4,7 @@
   */
 
 //define your token
-define("TOKEN", "kaikai");
+define("TOKEN", "FBC");
 $wechatObj = new wechatCallbackapiTest();
 $wechatObj->valid();
 

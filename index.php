@@ -52,8 +52,8 @@ class wechatCallbackapiTest
                     	$resultStr = $this->responseText($postObj, "Image");
                     	break;
                     case "voice":
-                    	$resultStr = $this->handleVoice($postObj);
-                    	// $resultStr = $this->responseText($postObj, "Voice");
+                    	// $resultStr = $this->handleVoice($postObj);
+                    	$resultStr = $this->responseText($postObj, "Voice");
                     	break;
                 	case "video":
                     	// $resultStr = $this->handleVideo($postObj);

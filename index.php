@@ -106,7 +106,7 @@ class wechatCallbackapiTest
                 }                
                 $resultStr = $this->responseText($postObj, $contentStr);
             }else if( $isTrans == "翻译" ){
-                $transinfo == "毕佩环"?$contentStr = "devil":$contentStr = $this->translate($transinfo);
+                $transinfo == "毕佩环"?$contentStr = "angel":$contentStr = $this->translate($transinfo);
                 $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";

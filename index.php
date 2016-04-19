@@ -214,7 +214,8 @@ class wechatCallbackapiTest
                         $contentStr = "你唔明噶...";
                         break;
                 }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
+                # $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }
 
             

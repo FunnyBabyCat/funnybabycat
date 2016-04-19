@@ -106,7 +106,34 @@ class wechatCallbackapiTest
                 }                
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if( $isTrans == "翻译" ){
-                $contentStr = $this->translate_youdao($transinfo);
+                $information = urlencode($transinfo);
+                $key = "1006358614";
+                $keyfrom = "FunnyBabyCat";
+                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;
+                $trans = json_decode(file_get_contents($url));
+                var_dump($trans);
+                $errorCode = $trans->{"errorCode"};
+                $contentStr = "";
+                switch ($errorCode) {
+                    case 0:
+                        $contentStr = $trans->{"translation"}[0];
+                        break;
+                    case 20:
+                        $contentStr = "要翻译的文本过长";
+                        break;
+                    case 30:
+                        $contentStr = "无法进行有效的翻译";
+                        break;
+                    case 40:
+                        $contentStr = "不支持的语言类型";
+                        break;
+                    case 50:
+                        $contentStr = "无效的key";
+                        break;
+                    default:
+                        $contentStr = '/:,@!出错了...';
+                        break;
+                }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";
@@ -262,13 +289,12 @@ class wechatCallbackapiTest
         return $resultStr;
     }
 
-    public function translate_youdao($transinfo){
-        $information = urlencode($transinfo);
+    public function translate($transinfo){
         $key = "1006358614";
         $keyfrom = "FunnyBabyCat";
-        $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$information;
+        $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;
         $trans = json_decode(file_get_contents($url));
-        // var_dump($trans);
+        var_dump($trans);
         $errorCode = $trans->{"errorCode"};
         $contentStr = "";
         switch ($errorCode) {
@@ -292,12 +318,6 @@ class wechatCallbackapiTest
                 break;
         }
         return $contentStr;
-    }
-
-    public function translate_iciba($transinfo){
-        $key = "6217B0021A5E8F94AF1FEA07E3F286A6";
-        $type = "json";
-        $url = "http://dict-co.iciba.com/api/dictionary.php?type=".$type."&w=".$transinfo"&key=".$key;
     }
     
     public function responseText($object, $content, $flag = 0){

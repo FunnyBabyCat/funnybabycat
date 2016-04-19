@@ -7,23 +7,20 @@
 define("TOKEN", "FBC");
 $wechatObj = new wechatCallbackapiTest();
 $wechatObj->responseMsg();
-// $wechatObj->valid();
+$wechatObj->valid();
 
 class wechatCallbackapiTest
 {
-    /*
     public function valid()
     {
         $echoStr = $_GET["echostr"];
 
         //valid signature , option
         if($this->checkSignature()){
-            header('content-type:text');
             echo $echoStr;
             exit;
         }
     }
-     */
 
     public function responseMsg()
     {
@@ -48,15 +45,19 @@ class wechatCallbackapiTest
                         $resultStr = $this->handleText($postObj);
                         break;
                     case "image":
-                    	$resultStr = $this->handleImage($postObj);
+                    	// $resultStr = $this->handleImage($postObj);
+                    	$resultStr = $this->responseText($postObj, "Image");
                     	break;
                     case "voice":
-                    	$resultStr = $this->handleVoice($postObj);
-        	          	break;
+                    	// $resultStr = $this->handleVoice($postObj);
+                    	$resultStr = $this->responseText($postObj, "Voice");
+                    	break;
                 	case "video":
-                    	$resultStr = $this->handleVideo($postObj);
-                		break;
+                    	// $resultStr = $this->handleVideo($postObj);
+                		$resultStr = $this->responseText($postObj, "Video");
+                    	break;
                     case "shortvideo":
+                    	// $resultStr = $this->handleShortVideo($postObj);
                     	$resultStr = $this->responseText($postObj, "ShortVideo");
                     	break;
                     case "event":
@@ -104,13 +105,39 @@ class wechatCallbackapiTest
                     $face = "/::~";
                     $contentStr = $face."发生错误了.../::~";
                 }                
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if( $isTrans == "翻译" ){
-                $contentStr = $this->translate_youdao($transinfo);
-                $resultStr = responseText($postObj, $contentStr);
+                $key = "1006358614";
+                $keyfrom = "FunnyBabyCat";
+                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;
+                $trans = json_decode(file_get_contents($url));
+                var_dump($trans);
+                $errorCode = $trans->{"errorCode"};
+                $contentStr = "";
+                switch ($errorCode) {
+                    case 0:
+                        $contentStr = $trans->{"translation"}[0];
+                        break;
+                    case 20:
+                        $contentStr = "要翻译的文本过长";
+                        break;
+                    case 30:
+                        $contentStr = "无法进行有效的翻译";
+                        break;
+                    case 40:
+                        $contentStr = "不支持的语言类型";
+                        break;
+                    case 50:
+                        $contentStr = "无效的key";
+                        break;
+                    default:
+                        $contentStr = '/:,@!出错了...';
+                        break;
+                }
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if ( strtolower($keyword) == "song") {
                 include 'song.php';
                 $num = count($arr)>10?10:count($arr);
@@ -149,7 +176,7 @@ class wechatCallbackapiTest
                         $contentStr = "是白雪公主!";
                         break;
                 }
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^爱我^", $keyword)){
                 $ran = rand(1, 19);
                 switch ($ran) {
@@ -166,16 +193,16 @@ class wechatCallbackapiTest
                         $contentStr = "哦...";
                         break;
                 }
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^嗨|你好|嘿^", $keyword)){
                 $contentStr = "你好, 女神.";
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^男的|男人|帅哥^", $keyword)){
                 $contentStr = "你好, 丑男.";
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^[\s\S]*?我[\s\S]*?(丑|不好看|不美|不漂亮)[\s\S]*?^", $keyword)) {
                 $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^[\s\S]*?我[\s\S]*?(美|好看|漂亮)[\s\S]*?^", $keyword)) {
                 $ran = rand(1, 2);
                 switch ($ran) {
@@ -186,7 +213,7 @@ class wechatCallbackapiTest
                         $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
                         break;
                 }
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^小猫|娘口|在吗|在干嘛^", $keyword)){
                 $ran = rand(1, 2);
                 switch ($ran) {
@@ -197,7 +224,7 @@ class wechatCallbackapiTest
                         $contentStr = "干嘛";
                         break;
                 }
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else{
                 $ran = rand(1, 4);
                 switch ($ran) {
@@ -214,7 +241,7 @@ class wechatCallbackapiTest
                         $contentStr = "你唔明噶...";
                         break;
                 }
-                $resultStr = responseText($postObj, $contentStr);
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }
 
             
@@ -224,28 +251,8 @@ class wechatCallbackapiTest
         }        
     }
 
-    public function handleVoice($object){
-        $contentStr = "内容: \n".$object->Recognition;
-        $resultStr = $this->responseText($object, $contentStr);
-        return $resultStr;
-    }
-
     public function handleImage($object){
-        $contentStr = "Image";
-        $resultStr = $this->responseText($object, $contentStr);
-        return $resultStr;
-    }
 
-    public function handleVideo($object){
-        $contentStr = "Video";
-        $resultStr = $this->responseText($object, $contentStr);
-        return $resultStr;
-    }
-
-    public function handleShortVideo($object){
-        $contentStr = "ShortVideo";
-        $resultStr = $this->responseText($object, $contentStr);
-        return $resultStr;
     }
 
     public function handleEvent($object){
@@ -260,44 +267,6 @@ class wechatCallbackapiTest
         }
         $resultStr = $this->responseText($object, $contentStr);
         return $resultStr;
-    }
-
-    public function translate_youdao($transinfo){
-        $information = urlencode($transinfo);
-        $key = "1006358614";
-        $keyfrom = "FunnyBabyCat";
-        $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$information;
-        $trans = json_decode(file_get_contents($url));
-        // var_dump($trans);
-        $errorCode = $trans->{"errorCode"};
-        $contentStr = "";
-        switch ($errorCode) {
-            case 0:
-                $contentStr = $trans->{"translation"}[0];
-                break;
-            case 20:
-                $contentStr = "要翻译的文本过长";
-                break;
-            case 30:
-                $contentStr = "无法进行有效的翻译";
-                break;
-            case 40:
-                $contentStr = "不支持的语言类型";
-                break;
-            case 50:
-                $contentStr = "无效的key";
-                break;
-            default:
-                $contentStr = '/:,@!出错了...';
-                break;
-        }
-        return $contentStr;
-    }
-
-    public function translate_iciba($transinfo){
-        $key = "6217B0021A5E8F94AF1FEA07E3F286A6";
-        $type = "json";
-        $url = "http://dict-co.iciba.com/api/dictionary.php?type=".$type."&w=".$transinfo"&key=".$key;
     }
     
     public function responseText($object, $content, $flag = 0){

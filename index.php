@@ -104,40 +104,15 @@ class wechatCallbackapiTest
                     $face = "/::~";
                     $contentStr = $face."发生错误了.../::~";
                 }                
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
+                # $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if( $isTrans == "翻译" ){
-                $information = urlencode($transinfo);
-                $key = "1006358614";
-                $keyfrom = "FunnyBabyCat";
-                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$information;
-                $trans = json_decode(file_get_contents($url));
-                // var_dump($trans);
-                $errorCode = $trans->{"errorCode"};
-                $contentStr = "";
-                switch ($errorCode) {
-                    case 0:
-                        $contentStr = $trans->{"translation"}[0];
-                        break;
-                    case 20:
-                        $contentStr = "要翻译的文本过长";
-                        break;
-                    case 30:
-                        $contentStr = "无法进行有效的翻译";
-                        break;
-                    case 40:
-                        $contentStr = "不支持的语言类型";
-                        break;
-                    case 50:
-                        $contentStr = "无效的key";
-                        break;
-                    default:
-                        $contentStr = '/:,@!出错了...';
-                        break;
-                }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $contentStr = $this->translate($transinfo);
+                $resultStr = $this->responseText($postObj, $contentStr);
+                # $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else if(preg_match("^晚安^", $keyword)){
             	$contentStr = "晚安/:moon";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if ( strtolower($keyword) == "song") {
                 include 'song.php';
                 $num = count($arr)>10?10:count($arr);
@@ -176,7 +151,7 @@ class wechatCallbackapiTest
                         $contentStr = "是白雪公主!";
                         break;
                 }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^爱我^", $keyword)){
                 $ran = rand(1, 19);
                 switch ($ran) {
@@ -193,16 +168,16 @@ class wechatCallbackapiTest
                         $contentStr = "哦...";
                         break;
                 }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^嗨|你好|嘿^", $keyword)){
                 $contentStr = "你好, 女神.";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^男的|男人|帅哥^", $keyword)){
                 $contentStr = "你好, 丑男.";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^[\s\S]*?我[\s\S]*?(丑|不好看|不美|不漂亮)[\s\S]*?^", $keyword)) {
                 $contentStr = "当然不, 每次我看着你的时候, 我都为你的飒爽英姿所倾倒. ";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^[\s\S]*?我[\s\S]*?(美|好看|漂亮)[\s\S]*?^", $keyword)) {
                 $ran = rand(1, 2);
                 switch ($ran) {
@@ -213,7 +188,7 @@ class wechatCallbackapiTest
                         $contentStr = "皎若太阳升朝霞, 灼若芙蕖出渌波. ";
                         break;
                 }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else if(preg_match("^小猫|娘口|在吗|在干嘛^", $keyword)){
                 $ran = rand(1, 2);
                 switch ($ran) {
@@ -224,7 +199,7 @@ class wechatCallbackapiTest
                         $contentStr = "干嘛";
                         break;
                 }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
             }else{
                 $ran = rand(1, 4);
                 switch ($ran) {
@@ -241,7 +216,8 @@ class wechatCallbackapiTest
                         $contentStr = "你唔明噶...";
                         break;
                 }
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                $resultStr = $this->responseText($postObj, $contentStr);
+                # $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }
 
             
@@ -290,6 +266,11 @@ class wechatCallbackapiTest
     }
 
     public function translate($transinfo){
+        $contentStr = translate_youdao( urlencode($transinfo) );
+        return $contentStr;
+    }
+
+    public function translate_youdao($transinfo){
         $key = "1006358614";
         $keyfrom = "FunnyBabyCat";
         $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;

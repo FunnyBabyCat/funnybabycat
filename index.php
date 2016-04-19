@@ -109,9 +109,9 @@ class wechatCallbackapiTest
                 $information = urlencode($transinfo);
                 $key = "1006358614";
                 $keyfrom = "FunnyBabyCat";
-                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$transinfo;
+                $url = "http://fanyi.youdao.com/openapi.do?keyfrom=".$keyfrom."&key=".$key."&type=data&doctype=json&version=1.1&q=".$information;
                 $trans = json_decode(file_get_contents($url));
-                var_dump($trans);
+                // var_dump($trans);
                 $errorCode = $trans->{"errorCode"};
                 $contentStr = "";
                 switch ($errorCode) {

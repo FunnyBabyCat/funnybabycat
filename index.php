@@ -57,7 +57,7 @@ class wechatCallbackapiTest
                     	$resultStr = $this->handleVideo($postObj);
                 		break;
                     case "shortvideo":
-                    	$resultStr = $this->responseText($postObj, "ShortVideo");
+                    	$resultStr = $this->handleShortVideo($postObj);
                     	break;
                     case "event":
                         $resultStr = $this->handleEvent($postObj);
